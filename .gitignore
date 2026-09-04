@@ -1,0 +1,18 @@
+node_modules/
+
+# CocoaPods — Pods/ é gerado por `pod install`, Podfile.lock deve ir pro
+# Git (garante versões reprodutíveis no Xcode Cloud)
+ios/App/Pods/
+
+# Build outputs do Xcode
+ios/DerivedData/
+ios/build/
+*.xcarchive
+*.ipa
+
+# Capacitor copia os web assets pra cá a cada `cap sync` — não é fonte
+ios/App/App/public/
+
+.DS_Store
+xcuserdata/
+*.xcuserstate
