@@ -20,6 +20,15 @@ O código-fonte do Hub em si vive em `../www` (repo separado).
   de perfil do Hub (`<input type="file">`) abre o seletor nativo de
   câmera/galeria dentro da WebView, e o iOS derruba o app se essas chaves
   não existirem quando esse fluxo é acionado.
+- Push notification (`@capacitor/push-notifications`) já integrado:
+  capability de Push Notifications + Background Modes (`App.entitlements`,
+  `UIBackgroundModes` no `Info.plist`) e os dois métodos exigidos no
+  `AppDelegate.swift` (`didRegisterForRemoteNotificationsWithDeviceToken`)
+  já adicionados. **Falta só** o `GoogleService-Info.plist` real do
+  Firebase — ver `../STORE_LISTING.md` → seção "Push notification —
+  pendências suas" pro passo a passo completo (Firebase Console + APNs
+  Auth Key no Apple Developer). Sem esse arquivo, o app builda e roda
+  normalmente, só não consegue registrar push de verdade.
 
 ## Bundle ID
 

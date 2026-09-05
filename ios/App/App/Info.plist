@@ -49,5 +49,9 @@
 	<string>Usado para tirar uma foto e definir sua foto de perfil no CRS Club.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Usado para escolher uma foto da sua galeria e definir sua foto de perfil no CRS Club.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>
