@@ -21,20 +21,13 @@ O código-fonte do Hub em si vive em `../www` (repo separado).
   câmera/galeria dentro da WebView, e o iOS derruba o app se essas chaves
   não existirem quando esse fluxo é acionado.
 
-## ⚠️ Antes de arquivar no Xcode
+## Bundle ID
 
-**Confirmar o Bundle ID.** Este projeto usa `br.com.crsclub.app` como
-placeholder. O app "CRS Club | Congresso RS" já existe na App Store
-Connect (ficha em "1.0 Preparar para envio") — o Bundle ID de lá é fixo
-e não pode ser alterado depois de criado. Antes do primeiro build:
-
-1. App Store Connect → app CRS Club → Config do App → Informações do App
-   → conferir o **Bundle ID** exato.
-2. Se for diferente de `br.com.crsclub.app`, atualizar em dois lugares:
-   - `capacitor.config.ts` (campo `appId`)
-   - Dentro do Xcode: selecionar o target App → aba Signing & Capabilities
-     → campo Bundle Identifier
-   - Rodar `npx cap sync ios` depois de mudar o `capacitor.config.ts`.
+Confirmado em App Store Connect → Config do App → Informações do App em
+2026-09-05: **`br.com.crsclub.hub`** (ID do pacote "CRS Club Hub", ID
+Apple 6808630261). Já configurado em `capacitor.config.ts` e no projeto
+Xcode (`PRODUCT_BUNDLE_IDENTIFIER`). Se precisar trocar de novo no
+futuro, mude nos dois lugares e rode `npx cap sync ios` depois.
 
 ## Como abrir e buildar (precisa de Mac com Xcode)
 
@@ -46,11 +39,12 @@ quem for finalizar no Mac (ou configurar o Xcode Cloud):
 git clone <este repo> app-ios
 cd app-ios
 npm install
-sudo gem install cocoapods   # se ainda não tiver CocoaPods
+npx cap sync ios              # gera ios/App/App/capacitor.config.json (não vai pro Git)
+sudo gem install cocoapods    # se ainda não tiver CocoaPods
 cd ios/App
 pod install
 cd ../..
-npx cap open ios             # abre o .xcworkspace no Xcode
+npx cap open ios              # abre o .xcworkspace no Xcode
 ```
 
 No Xcode:

@@ -1,12 +1,10 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
-// IMPORTANTE: appId precisa bater exatamente com o Bundle ID já cadastrado
-// no App Store Connect ("CRS Club | Congresso RS", app existente em
-// "1.0 Preparar para envio"). Confirmar em App Store Connect → Config do
-// App → Informações do App → Bundle ID antes de arquivar no Xcode — se
-// não bater, o upload é rejeitado.
+// appId confirmado em App Store Connect → Config do App → Informações do
+// App → ID do pacote ("CRS Club Hub - br.com.crsclub.hub", ID Apple
+// 6808630261) em 2026-09-05.
 const config: CapacitorConfig = {
-  appId: 'br.com.crsclub.app',
+  appId: 'br.com.crsclub.hub',
   appName: 'CRS Club',
   webDir: 'www',
   // O app é uma WebView do hub em produção, não um bundle estático:
