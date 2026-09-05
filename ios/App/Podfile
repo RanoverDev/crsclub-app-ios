@@ -17,6 +17,12 @@ end
 target 'App' do
   capacitor_pods
   # Add your Pods here
+
+  # @capacitor/push-notifications no iOS só entrega o token bruto da APNs
+  # (hex). O firebase-admin do back-end espera um token FCM — é o SDK do
+  # Firebase (FirebaseApp.configure() + Messaging no AppDelegate.swift)
+  # que troca um pelo outro internamente.
+  pod 'FirebaseMessaging'
 end
 
 post_install do |installer|

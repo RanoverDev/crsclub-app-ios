@@ -1,13 +1,16 @@
 import UIKit
 import Capacitor
+import FirebaseCore
+import FirebaseMessaging
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
         return true
     }
 
@@ -46,15 +49,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
     }
 
-    // Repassa o resultado do registro de push (@capacitor/push-notifications)
-    // pro bridge do Capacitor — exigido manualmente pelo plugin, não é
-    // automático como o resto do ciclo de vida acima.
+    // Repassa o token bruto da APNs pro Firebase Messaging, que troca por
+    // um token FCM de verdade — é esse token FCM que aparece no callback
+    // messaging(_:didReceiveRegistrationToken:) abaixo, e é o único formato
+    // que o back-end (firebase-admin) sabe enviar. Não repassa o token
+    // bruto direto pro Capacitor (seria o formato errado).
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: deviceToken)
+        Messaging.messaging().apnsToken = deviceToken
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
+    }
+
+    // Callback do FirebaseMessaging quando o token FCM fica pronto (na
+    // troca do token da APNs acima, ou quando ele é renovado). O plugin
+    // @capacitor/push-notifications já sabe lidar com um token em formato
+    // String nesse mesmo NotificationCenter event — usamos isso em vez do
+    // hex bruto que o próprio plugin geraria a partir do token da APNs.
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        guard let fcmToken = fcmToken else { return }
+        NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: fcmToken)
     }
 
 }
